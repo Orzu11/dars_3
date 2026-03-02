@@ -1,82 +1,164 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
-  const [isMuted, setIsMuted] = useState(true);
+  const navigate = useNavigate()
+  const [search, setSearch] = useState('')
+  const [tick, setTick] = useState(0)
+
+  useEffect(() => {
+    const t = setInterval(() => setTick(p => p + 1), 2000)
+    return () => clearInterval(t)
+  }, [])
+
+  const stats = [
+    { val: '2.5M+', label: 'Resurslar' },
+    { val: '140+',  label: 'Davlatlar' },
+    { val: '24/7',  label: 'Dastak'    },
+  ]
+
+  const tags = ['Fiction', 'Science', 'History', 'Art', 'Technology', 'Philosophy']
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#020202] font-sans">
-      
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay loop muted={isMuted} playsInline
-          className="w-full h-full object-cover scale-105 transition-transform duration-1000"
-        >
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-searching-for-a-book-in-a-library-34531-large.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black"></div>
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#080010] font-mono">
+
+      {/* ── animated grid background ── */}
+      <div className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(139,92,246,0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139,92,246,0.07) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px'
+        }}
+      />
+
+      <div className="absolute top-0 left-0 w-40 h-40 z-10 pointer-events-none">
+        <div className="absolute top-8 left-8 w-16 h-px bg-violet-500" />
+        <div className="absolute top-8 left-8 w-px h-16 bg-violet-500" />
+      </div>
+      <div className="absolute top-0 right-0 w-40 h-40 z-10 pointer-events-none">
+        <div className="absolute top-8 right-8 w-16 h-px bg-cyan-500" />
+        <div className="absolute top-8 right-8 w-px h-16 bg-cyan-500" />
+      </div>
+      <div className="absolute bottom-0 left-0 w-40 h-40 z-10 pointer-events-none">
+        <div className="absolute bottom-8 left-8 w-16 h-px bg-cyan-500" />
+        <div className="absolute bottom-8 left-8 w-px h-16 bg-cyan-500" />
+      </div>
+      <div className="absolute bottom-0 right-0 w-40 h-40 z-10 pointer-events-none">
+        <div className="absolute bottom-8 right-8 w-16 h-px bg-violet-500" />
+        <div className="absolute bottom-8 right-8 w-px h-16 bg-violet-500" />
       </div>
 
-      <button 
-        onClick={() => setIsMuted(!isMuted)}
-        className="absolute bottom-10 right-10 z-50 text-white/50 hover:text-cyan-400 transition-all flex items-center gap-3 text-[10px] tracking-[0.3em] uppercase"
-      >
-        {isMuted ? 'Sound Off' : 'Sound On'}
-        <div className="flex gap-1 items-end h-4">
-          <div className={`w-1 bg-current ${!isMuted ? 'animate-bounce h-4' : 'h-1'}`}></div>
-          <div className={`w-1 bg-current ${!isMuted ? 'animate-bounce delay-75 h-3' : 'h-1'}`}></div>
-          <div className={`w-1 bg-current ${!isMuted ? 'animate-bounce delay-150 h-2' : 'h-1'}`}></div>
-        </div>
-      </button>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-violet-600/10 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
 
-      <div className="relative z-20 h-full flex flex-col justify-center items-center px-6">
-        
-        <div className="animate-pulse mb-8">
-           <span className="px-4 py-1 border border-cyan-500/30 rounded-full text-cyan-400 text-[10px] tracking-[0.4em] uppercase">
-             Live Experience
-           </span>
+      <div className="relative z-20 flex items-center justify-between px-10 pt-8">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+          <span className="text-cyan-400/60 text-[10px] tracking-[0.4em] uppercase">System Online</span>
         </div>
+        <div className="flex items-center gap-6">
+          {['Catalog', 'About', 'Contact'].map(item => (
+            <button key={item} className="text-white/30 hover:text-white text-[11px] tracking-[0.2em] uppercase transition-colors duration-300">
+              {item}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        <h1 className="text-white text-7xl md:text-[140px] font-black leading-none tracking-tighter text-center">
-          BILIM <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">
-            XAZINASI
+      <div className="relative z-20 flex flex-col items-center justify-center min-h-[80vh] px-6 text-center">
+
+        <div className="mb-6 flex items-center gap-3">
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-violet-500" />
+          <span className="text-violet-400 text-[10px] tracking-[0.5em] uppercase">
+            Knowledge Archive v2.0
           </span>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-violet-500" />
+        </div>
+
+        <h1 className="mb-2 text-white text-[80px] md:text-[120px] font-black leading-none tracking-[-4px] uppercase">
+          BILIM
+        </h1>
+        <h1 className="mb-8 text-[80px] md:text-[120px] font-black leading-none tracking-[-4px] uppercase"
+          style={{
+            WebkitTextStroke: '2px rgba(139,92,246,0.8)',
+            color: 'transparent',
+            textShadow: '0 0 60px rgba(139,92,246,0.3)'
+          }}
+        >
+          XAZINASI
         </h1>
 
-        <div className="mt-12 w-full max-w-xl relative group">
-          <input 
-            type="text" 
-            placeholder="Kitob nomini yozing..." 
-            className="w-full bg-white/5 border-b border-white/20 py-4 px-6 text-white placeholder:text-gray-500 focus:outline-none focus:border-cyan-500 transition-all backdrop-blur-sm italic"
-          />
-          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-cyan-500 font-bold tracking-widest text-xs uppercase group-hover:text-white transition-colors">
-            Search
-          </button>
+        <div className="w-full max-w-2xl relative mt-4">
+          <div className="absolute -inset-px rounded-none bg-gradient-to-r from-violet-600 via-cyan-500 to-violet-600 opacity-60"
+            style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }} />
+          <div className="relative flex bg-[#080010]">
+            <span className="flex items-center px-4 text-violet-400 text-xs tracking-widest border-r border-violet-500/30">
+              SRH
+            </span>
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && search.trim() && navigate('/products')}
+              placeholder="Kitob nomini yozing..."
+              className="flex-1 bg-transparent px-6 py-5 text-white text-sm placeholder:text-white/20 outline-none tracking-wider"
+            />
+            <button
+              onClick={() => search.trim() && navigate('/products')}
+              className="px-8 text-[10px] tracking-[0.3em] uppercase font-bold text-black bg-gradient-to-r from-violet-500 to-cyan-500 hover:opacity-80 transition-opacity"
+            >
+              Run
+            </button>
+          </div>
         </div>
 
-       
-        <div className="absolute bottom-20 flex gap-20 text-white/40">
-           <div className="text-center">
-             <div className="text-xl font-bold text-white tracking-widest">2.5M+</div>
-             <div className="text-[10px] uppercase tracking-tighter">Resurslar</div>
-           </div>
-           <div className="text-center border-x border-white/10 px-20">
-             <div className="text-xl font-bold text-white tracking-widest">140+</div>
-             <div className="text-[10px] uppercase tracking-tighter">Davlatlar</div>
-           </div>
-           <div className="text-center">
-             <div className="text-xl font-bold text-white tracking-widest">24/7</div>
-             <div className="text-[10px] uppercase tracking-tighter">Dastak</div>
-           </div>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          {tags.map(tag => (
+            <button
+              key={tag}
+              onClick={() => navigate('/products')}
+              className="px-3 py-1 text-[10px] tracking-[0.2em] uppercase text-white/30 border border-white/10 hover:border-violet-500/60 hover:text-violet-400 transition-all duration-300"
+            >
+              {tag}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="absolute inset-0 pointer-events-none opacity-20" 
-           style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '50px 50px' }}>
+      <div className="relative z-20 border-t border-white/5">
+        <div className="flex items-stretch">
+          {stats.map((s, i) => (
+            <div key={i} className={`flex-1 py-6 flex flex-col items-center gap-1 ${i < stats.length - 1 ? 'border-r border-white/5' : ''}`}>
+              <span className="text-2xl font-black text-white tracking-widest"
+                style={{ textShadow: '0 0 20px rgba(139,92,246,0.5)' }}>
+                {s.val}
+              </span>
+              <span className="text-[9px] tracking-[0.4em] uppercase text-white/30">{s.label}</span>
+            </div>
+          ))}
+          <div className="flex-1 py-6 flex flex-col items-center gap-1 border-l border-white/5">
+            <div className="flex items-center gap-2">
+              <div className={`w-1.5 h-1.5 rounded-full ${tick % 2 === 0 ? 'bg-cyan-400' : 'bg-transparent'} transition-all duration-300`} />
+              <span className="text-2xl font-black text-white tracking-widest"
+                style={{ textShadow: '0 0 20px rgba(34,211,238,0.5)' }}>
+                LIVE
+              </span>
+            </div>
+            <span className="text-[9px] tracking-[0.4em] uppercase text-white/30">Real-time</span>
+          </div>
+        </div>
       </div>
+
+      <div className="absolute inset-0 z-10 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 4px)',
+        }}
+      />
 
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

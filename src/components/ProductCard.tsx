@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import type { ProductsType } from "../@types"
+import type { ProductsType } from "../Types"
 
 interface ProductCardType {
     item: ProductsType

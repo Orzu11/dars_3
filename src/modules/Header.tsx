@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { ThumbsUp } from "lucide-react"
 
 const Header = () => {
-    const { setToken } = useContext(Context)
+    const { setToken, liked } = useContext(Context)
     const [loading, setLoading] = useState<boolean>(false)
     const location = useLocation()
     const navigate = useNavigate()
@@ -19,7 +19,6 @@ const Header = () => {
             setLogOutModal(false)
             toast.success("Muvaffaqiyatli chiqib ketdingiz!")
         }, 1200)
-
         setTimeout(() => {
             navigate(PATH.home)
             setToken("")
@@ -40,13 +39,22 @@ const Header = () => {
                         {location.pathname === PATH.home && "Home"}
                         {location.pathname === PATH.products && "Products"}
                         {location.pathname === PATH.category && "Category"}
+                        {location.pathname === PATH.liked && "Liked"}
                     </p>
                 </div>
 
                 <div className="flex gap-5 items-center">
-                    <Button extraClass="!w-[45px] relative !h-[45px] !p-0 flex items-center justify-center" type="button">
+                    <Button
+                        onClick={() => navigate(PATH.liked)}
+                        extraClass="!w-[45px] relative !h-[45px] !p-0 flex items-center justify-center"
+                        type="button"
+                    >
                         <ThumbsUp size={25} />
-                        <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-[12px] flex items-center justify-center">1</span>
+                        {liked.length > 0 && (
+                            <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-[12px] flex items-center justify-center">
+                                {liked.length}
+                            </span>
+                        )}
                     </Button>
                     <Button onClick={() => setLogOutModal(true)} extraClass="!w-[100px] fon-bold" type="button">Log out</Button>
                 </div>
